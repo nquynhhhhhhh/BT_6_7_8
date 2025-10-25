@@ -6,18 +6,11 @@ import java.time.Duration;
 
 public class WebElement {
     public static void main(String[] args) {
-        WebDriver driver;
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        Common.createDriver();
+        Common.loginCRM();
 
-        //Mở trang anhtester.com
-        driver.get("https://anhtester.com/");
 
-        //Click nút Login
-        driver.findElement(By.xpath("//a[@id='btn-login']")).click();
 
-        //Tắt browser
-        driver.quit();
+        Common.closeDriver();
     }
 }
