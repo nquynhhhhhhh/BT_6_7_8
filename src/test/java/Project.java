@@ -23,15 +23,23 @@ public class Project extends Common {
 
         Thread.sleep(1000);
         boolean checkbox = driver.findElement(By.xpath(Locators.checkboxCalculateProgress)).isSelected();
-        boolean scroll = driver.findElement(By.xpath(Locators.scrollProgress)).isEnabled();
         System.out.println("Checkbox Calculate Progress: " + checkbox);
-        System.out.println("Scroll Progress: " + scroll);
+        Thread.sleep(1000);
+        //Selenium kiểm tra “enabled” bằng cách nhìn vào:
+        //+ Có thuộc tính disabled trong HTML thực tế không (vd: <input type="text" disabled>, hoặc
+        //+ Những loại element được browser coi là form control (ví dụ <input>, <button>, <select>...)
+        //=> NHƯNG ở đây chỉ có <div class="ui-slider ui-state-disabled">, tức là nó chỉ thay đổi giao diện và chặn sự kiện bằng CSS/JS (cái dùng để thay đổi UI), chứ không thật sự “disable” phần tử
+        //Người dùng nhìn thấy nó “xám đi”, “bấm không được”, nhưng thực ra trong HTML nó vẫn đang enable => .isEnable = true
+        String scroll = driver.findElement(By.xpath(Locators.scrollProgress)).getAttribute("class");
+        //=> tự get lấy tất cả giá trị của thuộc tính "class" => kiểm tra xem chuỗi đó có chứa class bị disable hay không
+        boolean checkEnable = scroll.contains("ui-state-disabled");
+        System.out.println("Scroll enable: " + checkEnable);
+        Thread.sleep(1000);
 //        if (checkbox == true) {
 //            driver.findElement(By.xpath(Locators.checkboxCalculateProgress)).click();
 //            Thread.sleep(1000); //=> nên chèn thgian vào để chạy code tốt hơn
 //            boolean scroll2 = driver.findElement(By.xpath(Locators.scrollProgress)).isEnabled();
 //            System.out.println("Scroll Progress (when click checkbox one more time): " + scroll2);
-//            => scroll2 đáng lẽ phải trả về false (?)
 //        }
 
         Thread.sleep(1000);
